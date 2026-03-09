@@ -1,37 +1,28 @@
-import { ReflectClass }    from '@itrocks/reflect'
-import { ReflectProperty } from '@itrocks/reflect'
-import { KeyOf }           from '@itrocks/class-type'
-import { Type }            from '@itrocks/class-type'
-import { isType }          from '@itrocks/property-type'
-import { PathInput }       from './types'
-import { PathValue }       from './types'
-import { SplitPath }       from './types'
+import { ReflectClass }       from '@itrocks/reflect'
+import { ReflectProperty }    from '@itrocks/reflect'
+import { LastKey }            from './types'
+import { PropertyPathArray }  from './types'
+import { SecondToLastObject } from './types'
 
-export class ReflectPropertyPath<R extends object, P extends PathInput<R>> extends ReflectProperty<PathValue<R, P>>
+export class ReflectPropertyPath<R extends object, P extends PropertyPathArray<R>>
+	extends ReflectProperty<SecondToLastObject<R, P>>
 {
+	path:      P
 	rootClass: ReflectClass<R>
-	path: P extends string ? SplitPath<P> : P
 
-	constructor(object: R | ReflectClass<R> | Type<R>, name: P)
+	constructor(object: R /* | ReflectClass<R> | Type<R> */, path: P)
 	{
-		const path = (typeof name === 'string' ? name.split('.') : [...name]) as P extends string ? SplitPath<P> : P
-		if (!path.length) {
-			throw 'ReflectPropertyPath called with empty path'
+		const lastKeyIndex      = path.length - 1
+		let   subObject: object = object
+		for (let key = 0; key < lastKeyIndex; key++) {
+			subObject = (subObject as Record<string, object>)[path[key]]
 		}
-		const rootClass = new ReflectClass(object) as ReflectClass<R>
-		let   property  = new ReflectProperty(rootClass as unknown as ReflectClass<object>, path[0] as KeyOf<object>)
-		for (const propertyName of path.slice(1)) {
-			const type = property.type
-			if (!isType(type)) {
-				throw 'Bad property ' + propertyName + ' into ' + rootClass.name + ': ' + path.join('.')
-			}
-			const value     = property.value
-			const subObject = (typeof value === 'object') ? (value as object) : (type.type as Type)
-			property        = new ReflectProperty(subObject, propertyName)
-		}
-		super(property.class, property.name)
+		super(
+			subObject          as SecondToLastObject<R, P>,
+			path[lastKeyIndex] as any as LastKey<R, P>
+		)
 		this.path      = path
-		this.rootClass = rootClass
+		this.rootClass = new ReflectClass(object)
 	}
 
 }
