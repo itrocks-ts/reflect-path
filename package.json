@@ -1,0 +1,55 @@
+{
+	"author": {
+		"name": "Baptiste Pillot",
+		"email": "baptiste@pillot.fr"
+	},
+	"dependencies": {
+		"@itrocks/reflect": "latest"
+	},
+	"description": "Reflect nested property paths with type-safe traversal built",
+	"devDependencies": {
+		"@types/node": "^24.10",
+		"typescript": "~5.9"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"exports": {
+		"import": "./esm/reflect-path.js",
+		"require": "./cjs/reflect-path.js"
+	},
+	"files": [
+		"LICENSE",
+		"README.md",
+		"*/*.d.ts",
+		"*/*.js",
+		"!esm/esm.*"
+	],
+	"homepage": "https://it.rocks",
+	"keywords": [
+		"backend",
+		"class",
+		"introspection",
+		"it.rocks",
+		"object",
+		"path",
+		"property",
+		"reflect",
+		"reflection",
+		"runtime",
+		"type"
+	],
+	"license": "ISC",
+	"name": "@itrocks/reflect-path",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/itrocks-ts/reflect-path.git"
+	},
+	"scripts": {
+		"build": "npm run build:cjs && npm run build:esm",
+		"build:cjs": "tsc -p tsconfig.cjs.json",
+		"build:esm": "tsc -p tsconfig.esm.json && node esm/esm"
+	},
+	"types": "./esm/reflect-path.d.ts",
+	"version": "0.0.1"
+}
