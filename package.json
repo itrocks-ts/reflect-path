@@ -4,6 +4,7 @@
 		"email": "baptiste@pillot.fr"
 	},
 	"dependencies": {
+		"@itrocks/class-type": "latest",
 		"@itrocks/reflect": "latest"
 	},
 	"description": "Reflect nested property paths with type-safe traversal built",
