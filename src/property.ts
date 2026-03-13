@@ -1,9 +1,9 @@
-import { KeyOf }              from '@itrocks/class-type'
 import { ObjectOrType }       from '@itrocks/class-type'
 import { Type }               from '@itrocks/class-type'
 import { TypeType }           from '@itrocks/property-type'
 import { ReflectClass }       from '@itrocks/reflect'
 import { ReflectProperty }    from '@itrocks/reflect'
+import { KeyOf }              from './types'
 import { PropertyPath }       from './types'
 import { PropertyPathArray }  from './types'
 import { SecondToLastObject } from './types'
@@ -36,7 +36,7 @@ export class ReflectPropertyPath<
 			}
 			const value = property.value
 			subObject   = (typeof value === 'object') ? (value as object) : (propertyType.type as Type)
-			property    = new ReflectProperty(subObject, pathArray[key] as KeyOf<typeof subObject>)
+			property    = new ReflectProperty(subObject, pathArray[key] as keyof typeof subObject)
 		}
 
 		super(subObject as T, pathArray[lastKey] as unknown as K)

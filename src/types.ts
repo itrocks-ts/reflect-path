@@ -1,4 +1,5 @@
-import { KeyOf } from '@itrocks/class-type'
+
+export type KeyOf<T extends object> = Extract<keyof T, string>
 
 export type LastKey<R extends object, P extends Path | string> =
 	P extends Path
@@ -97,7 +98,7 @@ export type SecondToLastObject<R extends object, P extends Path | string> =
 export type SecondToLastObjectArray<R extends object, P extends Path> =
 	P extends readonly [infer _]
 		? R
-		: P extends readonly [infer K extends KeyOf<R>, ...infer Rest extends Path]
+		: P extends readonly [infer K extends keyof R, ...infer Rest extends Path]
 			? ObjectOf<R[K]> extends infer Next extends object
 				? SecondToLastObjectArray<Next, Rest>
 				: never
