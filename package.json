@@ -10,7 +10,6 @@
 	},
 	"description": "Reflect nested property paths with type-safe traversal built",
 	"devDependencies": {
-		"@types/node": "^24.10",
 		"typescript": "^7.0"
 	},
 	"engines": {
@@ -46,5 +45,5 @@
 	"scripts": {
 		"build": "tsc"
 	},
-	"version": "0.2.5"
+	"version": "0.2.6"
 }
