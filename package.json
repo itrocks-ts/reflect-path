@@ -5,6 +5,7 @@
 	},
 	"dependencies": {
 		"@itrocks/class-type": "latest",
+		"@itrocks/property-type": "latest",
 		"@itrocks/reflect": "latest"
 	},
 	"description": "Reflect nested property paths with type-safe traversal built",
@@ -45,5 +46,5 @@
 	"scripts": {
 		"build": "tsc"
 	},
-	"version": "0.2.4"
+	"version": "0.2.5"
 }
