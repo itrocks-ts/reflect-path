@@ -48,8 +48,8 @@ reject even as a final segment. `(Customer | null)[]` currently has an unknown e
 ## Reflect a final property
 
 `new ReflectPropertyPath(root, path)` accepts a class, object or `ReflectClass` and remains a `ReflectProperty`.
-Its `class`, `name`, `type`, `defaultValue` and `collectionType` describe the final metadata owner. `rootClass` keeps the
-root context; `path` is a copied, frozen segment array.
+Its `class`, `name`, `type`, `defaultValue` and `collectionType` describe the final metadata owner.
+`rootClass` keeps the root context; `path` is a copied, frozen segment array.
 
 Construction and metadata access read no domain values. Explicit `object`, `class.object` or `value` access resolves
 and remembers the final singular owner on first access. Missing parents return `undefined`; collection traversal has

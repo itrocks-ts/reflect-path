@@ -63,8 +63,9 @@ Custom root reflection metadata is retained by the final property's type/default
 ## Type helpers and distribution
 
 `PropertyPath`, `PropertyPathArray` and `PropertyPathString` enumerate nonempty string-key paths. `LastKey`,
-`LastValue`, `SecondToLastKey` and `SecondToLastObject` compute the final key/value and owning context; optional values
-and collection or record elements are unwrapped for traversal. Literal tuple/string arguments preserve the final property name.
+`LastValue`, `SecondToLastKey` and `SecondToLastObject` compute the final key/value and owning context;
+Optional values and collection or record elements are unwrapped for traversal. Literal tuple/string arguments preserve
+the final property name.
 Recursive context repetition widens the remaining suffix, preventing circular type expansion. Runtime validation still
 checks every segment; no runtime depth limit is imposed. Numbers, symbols, array indices and expressions are excluded.
 
