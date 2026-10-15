@@ -46,7 +46,13 @@ export type LastValueString<R extends object, P extends string> =
 			: never
 
 type ObjectOf<T> =
-	Extract<T, object>
+	T extends readonly (infer Element)[]
+		? Extract<Element, object>
+		: T extends object
+			? string extends keyof T
+				? Extract<T[string], object>
+				: T
+			: never
 
 type Path =
 	readonly string[]
@@ -54,22 +60,24 @@ type Path =
 export type PropertyPath<R extends object> =
 	PropertyPathArray<R> | PropertyPathString<R>
 
-export type PropertyPathArray<R extends object> = {
-	[K in KeyOf<R>]:
-	| readonly [K]
-	| (ObjectOf<R[K]> extends infer Next extends object
-		? readonly [K, ...PropertyPathArray<Next>]
-		: never)
-}[KeyOf<R>]
+// Stop eager expansion on recursive models without excluding longer runtime-validated paths.
+export type PropertyPathArray<R extends object, Seen extends readonly object[] = []> =
+	R extends Seen[number] ? readonly string[] : {
+		[K in KeyOf<R>]:
+		| readonly [K]
+		| (ObjectOf<R[K]> extends infer Next extends object
+			? readonly [K, ...PropertyPathArray<Next, [...Seen, R]>]
+			: never)
+	}[KeyOf<R>]
 
-export type PropertyPathString<R extends object> =
-{
-	[K in KeyOf<R>]:
-	| K
-	| (ObjectOf<R[K]> extends infer Next extends object
-		? `${K}.${PropertyPathString<Next>}`
-		: never)
-}[KeyOf<R>]
+export type PropertyPathString<R extends object, Seen extends readonly object[] = []> =
+	R extends Seen[number] ? string : {
+		[K in KeyOf<R>]:
+		| K
+		| (ObjectOf<R[K]> extends infer Next extends object
+			? `${K}.${PropertyPathString<Next, [...Seen, R]>}`
+			: never)
+	}[KeyOf<R>]
 
 export type SecondToLastKey<R extends object, P extends Path | string> =
 	P extends Path

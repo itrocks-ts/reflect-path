@@ -8,8 +8,9 @@
 		"@itrocks/property-type": "latest",
 		"@itrocks/reflect": "latest"
 	},
-	"description": "Reflect nested property paths with type-safe traversal built",
+	"description": "Reflect typed property paths from class metadata",
 	"devDependencies": {
+		"@itrocks/class-file": "latest",
 		"typescript": "^7.0"
 	},
 	"engines": {
@@ -43,7 +44,8 @@
 		"url": "git+https://github.com/itrocks-ts/reflect-path.git"
 	},
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+		"build:test": "tsc -p tsconfig.test.json"
 	},
-	"version": "0.2.6"
+	"version": "0.3.0"
 }
