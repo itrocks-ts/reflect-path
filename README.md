@@ -35,6 +35,9 @@ console.log(resolved.targetMultiplicity)       // one, many or unknown
 It validates every segment using property metadata, without constructing records or reading domain values/getters.
 The descriptor contains the canonical `path`, ordered reflected `segments`, final `property`, `rootClass`, optional
 ancestor paths, relational `target` when known and accumulated `targetMultiplicity`. Descriptor containers are frozen.
+Native `Date` values are terminal scalars, including optional/nullable dates; their final multiplicity is `one`.
+Date collections retain `many` multiplicity without a domain target. Native Date methods are excluded from typed paths,
+and runtime traversal rejects with `PropertyPathError`.
 Collections traverse their logical element type; inverse and N-N declarations remain available on each segment.
 A finite path can revisit a class. Path resolution does not choose automatic search-cycle rules.
 

@@ -25,7 +25,8 @@ export type ResolvedPropertyPath<R extends object = object> = {
 function multiplicityOf(type: PropertyType | undefined): TargetMultiplicity
 {
 	if ((type instanceof CollectionType) || (type instanceof RecordType)) return 'many'
-	if (type instanceof TypeType) return (type.lead === Array) ? 'many' : 'unknown'
+	// Relational and unresolved TypeType metadata uses the relation fact before this fallback.
+	if (type instanceof TypeType) return (type.lead === Array) ? 'many' : 'one'
 	if ((type instanceof CanonicalType) || (type instanceof LiteralType)) return 'one'
 	if (type instanceof UnionType) {
 		const members = type.types.filter(member =>

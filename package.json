@@ -47,5 +47,5 @@
 		"build": "tsc",
 		"build:test": "tsc -p tsconfig.test.json"
 	},
-	"version": "0.3.1"
+	"version": "0.3.2"
 }

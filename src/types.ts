@@ -46,11 +46,12 @@ export type LastValueString<R extends object, P extends string> =
 			: never
 
 type ObjectOf<T> =
-	T extends readonly (infer Element)[]
-		? Extract<Element, object>
+	T extends Date ? never
+	: T extends readonly (infer Element)[]
+		? Exclude<Extract<Element, object>, Date>
 		: T extends object
 			? string extends keyof T
-				? Extract<T[string], object>
+				? Exclude<Extract<T[string], object>, Date>
 				: T
 			: never
 

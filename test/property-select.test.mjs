@@ -175,6 +175,22 @@ test('missing and nullable values resolve through metadata without reading recor
 	assert.deepEqual(relation.optionalAncestors, ['customer', 'customer.address'])
 })
 
+test('native date paths retain scalar multiplicity and reject native methods', () => {
+	for (const name of ['date', 'nullableDate', 'optionalDate']) {
+		const resolved = resolvePropertyPath(Invoice, name)
+		assert.equal(resolved.target, undefined)
+		assert.equal(resolved.property.relation, undefined)
+		assert.equal(resolved.targetMultiplicity, 'one')
+		error(`${name}.getTime`, 'terminal-traversal', name)
+	}
+	assert.equal(resolvePropertyPath(Invoice, 'date').property.type.lead, Date)
+	for (const name of ['dateArray', 'dateMap', 'genericDates']) {
+		assert.equal(resolvePropertyPath(Invoice, name).target, undefined)
+		assert.equal(resolvePropertyPath(Invoice, name).targetMultiplicity, 'many')
+		assert.throws(() => resolvePropertyPath(Invoice, `${name}.getTime`), PropertyPathError)
+	}
+})
+
 test('normalisation copies segments and exposes stable readonly descriptor containers', () => {
 	const names = ['customer', 'address', 'city', 'name']
 	const array = resolvePropertyPath(Invoice, names)

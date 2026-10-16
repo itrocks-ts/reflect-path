@@ -62,3 +62,20 @@ const wrongValue: LastValue<Invoice, typeof path> = 42
 void [path, array, string, cycle, deepCycle, key, value, arrayValue, parentKey, owner, reflected, exactName, exactValue]
 void [stringReflected, stringName, described, multiplicity, target, code]
 void [invalid, scalar, arrayMethod, index, empty, emptyArray, wrongKey, wrongValue]
+
+const datePath: PropertyPath<Invoice> = 'nullableDate'
+const dateValue: LastValue<Invoice, 'date'> = new Date()
+// @ts-expect-error Native Date methods are not business paths.
+const dateMethod: PropertyPathString<Invoice> = 'date.getTime'
+// @ts-expect-error Nullable dates remain scalar.
+const nullableDateMethod: PropertyPathArray<Invoice> = ['nullableDate', 'getTime']
+// @ts-expect-error Optional dates remain scalar.
+const optionalDateMethod: PropertyPath<Invoice> = 'optionalDate.getTime'
+// @ts-expect-error Date collection elements remain scalar.
+const collectionDateMethod: PropertyPath<Invoice> = 'dateArray.getTime'
+// @ts-expect-error Generic Date collection elements remain scalar.
+const genericDateMethod: PropertyPath<Invoice> = 'genericDates.getTime'
+// @ts-expect-error Record Date elements remain scalar.
+const recordDateMethod: PropertyPath<Invoice> = 'dateMap.getTime'
+void [datePath, dateValue, dateMethod, nullableDateMethod, optionalDateMethod]
+void [collectionDateMethod, genericDateMethod, recordDateMethod]
